@@ -66,12 +66,12 @@ function initializeSampleData() {
     // Sample services
     if (!localStorage.getItem('services')) {
         const sampleServices = [
-            { id: 1, name: "PC Repair", description: "Hardware & software troubleshooting", price: "Negotiatable" },
-            { id: 2, name: "Windows Activation", description: "Activation of Windows permanently", price: "Negotiatable" },
-            { id: 3, name: "Windows Installation", description: "Windows 10 and 11 Installation", price: 150.00 },
-            { id: 4, name: "Office 365 Activation", description: "Activation of Office 365 permanently", price: "Negotiatable" },
-            { id: 5, name: "Laptop Screen Repair", description: "New Laptop Screen Installation", price: "Negotiatable" },
-            { id: 6, name: "Bluescreen Troubleshooting", description: "Troubleshooting PC/Laptop Bluescreen loop", price: "Negotiatable" }
+            { id: 1, name: "PC Repair", description: "Hardware & software troubleshooting", price: 430.00 },
+            { id: 2, name: "Windows Activation", description: "Activation of Windows permanently", price: 150.00 },
+            { id: 3, name: "Windows Installation", description: "Windows 10 and 11 Installation", price: 220.00 },
+            { id: 4, name: "Office 365 Activation", description: "Activation of Office 365 permanently", price: 150.00 },
+            { id: 5, name: "Laptop Screen Repair", description: "New Laptop Screen Installation", price: 350.00 },
+            { id: 6, name: "Bluescreen Troubleshooting", description: "Troubleshooting PC/Laptop Bluescreen loop", price: 300.00 }
         ];
         localStorage.setItem('services', JSON.stringify(sampleServices));
     }
