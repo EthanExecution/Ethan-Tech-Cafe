@@ -57,8 +57,8 @@ function initializeSampleData() {
     if (!localStorage.getItem('products')) {
         const sampleProducts = [
             { id: 1, title: "Secondhand Proline 8GB, 256GB SSD, Win 11 Home", picture: "P Proline Laptop.jpg", price: 2300.00, quantity: 2 }
-            { id: 2, title: "HP Dual Core Laptop, Canon Printer, Headphones, Mouse & Bag ", picture: "P Hp Combo.jpg", price: 10000.00, quantity: 5 }
-            { id: 3, title: "Wireless Pods", picture: "P pods.jfif", price: 400.00, quantity: 5 }
+            { id: 2, title: "HP Dual Core Laptop, Canon Printer, Headphones, Mouse & Bag ", picture: "P Hp Combo.jpg", price: 10000.00, quantity: 1 }
+            { id: 3, title: "Wireless Pods", picture: "P pods.jfif", price: 400.00, quantity: 10 }
         ];
         localStorage.setItem('products', JSON.stringify(sampleProducts));
     }
