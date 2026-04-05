@@ -135,6 +135,7 @@ nav ul li a:hover {
     display: flex;
     gap: 2rem;
     background: white;
+    color: black;
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 10px;
