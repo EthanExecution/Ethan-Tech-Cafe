@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Ethan Tech Cafe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Login Section -->
+        <div id="loginSection">
+            <h2>🔐 Admin Login</h2>
+            <input type="text" id="username" placeholder="Username" autocomplete="off">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p id="loginError" style="color:red; display:none;">Invalid credentials!</p>
+        </div>
+
+        <!-- Admin Dashboard (hidden until login) -->
+        <div id="adminDashboard" style="display:none;">
+            <h1><a href="index.html">👑</a> Admin Dashboard - Ethan Tech Cafe</h1>
+            
+            <!-- Add/Update Product Form -->
+            <div class="form-section">
+                <h2>➕ Add / Update Product</h2>
+                <input type="hidden" id="editProductId">
+                <input type="text" id="productTitle" placeholder="Product Title" required>
+                <input type="text" id="productPicture" placeholder="Image filename (e.g., laptop.jpg)" required>
+                <input type="number" id="productPrice" placeholder="Price (R)" step="0.01" required>
+                <input type="number" id="productQuantity" placeholder="Quantity" required>
+                <button onclick="saveProduct()">Save Product</button>
+                <button onclick="clearProductForm()">Clear</button>
+            </div>
+
+            <!-- Add Service Form -->
+            <div class="form-section">
+                <h2>➕ Add New Service</h2>
+                <input type="text" id="serviceName" placeholder="Service Name" required>
+                <input type="text" id="serviceDesc" placeholder="Description" required>
+                <input type="number" id="servicePrice" placeholder="Price (R)" step="0.01" required>
+                <button onclick="addService()">Add Service</button>
+            </div>
+
+            <!-- Products List -->
+            <div class="product-list">
+                <h2>📦 Manage Products</h2>
+                <table id="productsTable">
+                    <thead><tr><th>Image</th><th>Title</th><th>Price</th><th>Quantity</th><th>Actions</th></tr></thead>
+                    <tbody id="productsList"></tbody>
+                </table>
+            </div>
+
+            <!-- Services List -->
+            <div class="product-list">
+                <h2>🛠️ Manage Services</h2>
+                <table id="servicesTable">
+                    <thead><tr><th>Service Name</th><th>Description</th><th>Price</th><th>Actions</th></tr></thead>
+                    <tbody id="servicesList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hardcoded admin credentials
+        const ADMIN_USERNAME = "khalanga";
+        const ADMIN_PASSWORD = "0799359116Etc";
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                loadProducts();
+                loadServices();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        // Load products from localStorage
+        function loadProducts() {
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+            const tbody = document.getElementById('productsList');
+            tbody.innerHTML = '';
+            
+            products.forEach(product => {
+                const row = tbody.insertRow();
+                row.insertCell(0).innerHTML = `<img src="${product.picture}" width="50" onerror="this.src='https://via.placeholder.com/50'">`;
+                row.insertCell(1).textContent = product.title;
+                row.insertCell(2).textContent = `R${product.price}`;
+                row.insertCell(3).textContent = product.quantity;
+                
+                const actions = row.insertCell(4);
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Edit';
+                editBtn.onclick = () => editProduct(product.id);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => deleteProduct(product.id);
+                actions.appendChild(editBtn);
+                actions.appendChild(deleteBtn);
+            });
+        }
+
+        // Save (add or update) product
+        window.saveProduct = function() {
+            const id = document.getElementById('editProductId').value;
+            const title = document.getElementById('productTitle').value;
+            const picture = document.getElementById('productPicture').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const quantity = parseInt(document.getElementById('productQuantity').value);
+            
+            if (!title || !picture || isNaN(price) || isNaN(quantity)) {
+                alert('Please fill all fields correctly!');
+                return;
+            }
+            
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            if (id) {
+                // Update existing product
+                const index = products.findIndex(p => p.id == id);
+                if (index !== -1) {
+                    products[index] = { id: parseInt(id), title, picture, price, quantity };
+                }
+            } else {
+                // Add new product
+                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+                products.push({ id: newId, title, picture, price, quantity });
+            }
+            
+            localStorage.setItem('products', JSON.stringify(products));
+            clearProductForm();
+            loadProducts();
+            alert('Product saved successfully!');
+        };
+
+        window.editProduct = function(id) {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const product = products.find(p => p.id === id);
+            if (product) {
+                document.getElementById('editProductId').value = product.id;
+                document.getElementById('productTitle').value = product.title;
+                document.getElementById('productPicture').value = product.picture;
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productQuantity').value = product.quantity;
+            }
+        };
+
+        window.deleteProduct = function(id) {
+            if (confirm('Delete this product?')) {
+                let products = JSON.parse(localStorage.getItem('products')) || [];
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('products', JSON.stringify(products));
+                loadProducts();
+                alert('Product deleted!');
+            }
+        };
+
+        window.clearProductForm = function() {
+            document.getElementById('editProductId').value = '';
+            document.getElementById('productTitle').value = '';
+            document.getElementById('productPicture').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productQuantity').value = '';
+        };
+
+        // Service management
+        window.addService = function() {
+            const name = document.getElementById('serviceName').value;
+            const description = document.getElementById('serviceDesc').value;
+            const price = parseFloat(document.getElementById('servicePrice').value);
+            
+            if (!name || !description || isNaN(price)) {
+                alert('Fill all service fields!');
+                return;
+            }
+            
+            let services = JSON.parse(localStorage.getItem('services')) || [];
+            services.push({ id: Date.now(), name, description, price });
+            localStorage.setItem('services', JSON.stringify(services));
+            
+            document.getElementById('serviceName').value = '';
+            document.getElementById('serviceDesc').value = '';
+            document.getElementById('servicePrice').value = '';
+            loadServices();
+            alert('Service added!');
+        };
+
+        window.deleteService = function(id) {
+            if (confirm('Delete this service?')) {
+                let services = JSON.parse(localStorage.getItem('services')) || [];
+                services = services.filter(s => s.id !== id);
+                localStorage.setItem('services', JSON.stringify(services));
+                loadServices();
+            }
+        };
+
+        function loadServices() {
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            const tbody = document.getElementById('servicesList');
+            tbody.innerHTML = '';
+            
+            services.forEach(service => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = service.name;
+                row.insertCell(1).textContent = service.description;
+                row.insertCell(2).textContent = `R${service.price}`;
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => deleteService(service.id);
+                row.insertCell(3).appendChild(deleteBtn);
+            });
+        }
+    </script>
+</body>
+</html>

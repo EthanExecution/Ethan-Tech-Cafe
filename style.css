@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+    background-image: url('Images/back.jpg');
+}
+
+/* Navigation */
+nav {
+    background: #2c3e50;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo h2 {
+    color: #e67e22;
+}
+
+.logo small {
+    font-size: 0.8rem;
+    color: #ecf0f1;
+}
+#AdminLog{
+    color: #e67e22;
+    text-decoration: none;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    border: 1px solid rgb(170, 70, 33);
+    border-radius: 5px;
+    padding: 6px;
+}
+
+nav ul li a:hover {
+    color: #e67e22;
+    background: #344067;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    color: wheat;
+}
+
+/* Product Grid */
+.product-grid, .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.product-card, .service-card {
+    background: #4b4f53;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    text-align: center;
+}
+
+.product-card:hover, .service-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: fill;
+    border-radius: 8px;
+}
+
+.price {
+    font-size: 1.5rem;
+    color: #e67e22;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.in-stock {
+    color: green;
+    font-size: 0.9rem;
+}
+
+.out-of-stock {
+    color: red;
+    font-weight: bold;
+}
+
+.add-to-cart, button {
+    background: #e67e22;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.3s;
+}
+
+.add-to-cart:hover, button:hover {
+    background: #d35400;
+}
+
+.delete-btn {
+    background: #e74c3c;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+
+/* Cart Styles */
+.cart-item {
+    display: flex;
+    gap: 2rem;
+    background: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.quantity-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.quantity-controls button {
+    padding: 0.2rem 0.8rem;
+}
+
+/* Forms */
+input, textarea, select {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-section, .booking-form, #checkoutForm {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+/* Admin */
+.admin-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+#loginSection {
+    max-width: 400px;
+    margin: 5rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 0.8rem;
+    text-align: left;
+}
+
+th {
+    background: #2c3e50;
+    color: white;
+}
+
+/* About Page */
+.about-section {
+    background: white;
+    color: black;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.contact-info {
+    background: wheat;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+    }
+}

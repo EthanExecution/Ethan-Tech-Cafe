@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethan Tech Cafe - Services</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <h2>☕ Ethan Tech Cafe</h2>
+            <small>shop any Tech with pride</small>
+        </div>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="about.html">📖 About Us</a></li>
+            <li><a href="services.html">🛠️ Services</a></li>
+            <li><a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>🛠️ Our Tech Services</h1>
+        <div class="services-grid" id="servicesGrid"></div>
+
+        <!-- Appointment Booking Form -->
+        <div class="booking-form" id="bookingForm" style="display: none;">
+            <h2>📅 Book an Appointment</h2>
+            <form id="appointmentForm">
+                <input type="hidden" id="selectedService" name="selectedService">
+                <input type="text" id="customerName" placeholder="Full Name" required>
+                <input type="text" id="initials" placeholder="Initials & Surname (e.g., J. Doe)" required>
+                <input type="tel" id="phone" placeholder="Phone Number" required>
+                <input type="email" id="email" placeholder="Email Address" required>
+                <textarea id="address" placeholder="Delivery/Service Address" required></textarea>
+                <input type="date" id="appointmentDate" required>
+                <select id="contactMethod">
+                    <option value="email">Send via Email</option>
+                    <option value="whatsapp">Send via WhatsApp</option>
+                </select>
+                <button type="submit">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load and display services from localStorage
+        function displayServices() {
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            const grid = document.getElementById('servicesGrid');
+            
+            if (services.length === 0) {
+                grid.innerHTML = '<p>No services added by admin yet.</p>';
+                return;
+            }
+
+            grid.innerHTML = services.map(service => `
+                <div class="service-card">
+                    <h3>${escapeHtml(service.name)}</h3>
+                    <p>${escapeHtml(service.description)}</p>
+                    <p class="price">Price: R${service.price}</p>
+                    <button onclick="bookService('${service.name}')">Book This Service</button>
+                </div>
+            `).join('');
+        }
+
+        // Show booking form for selected service
+        window.bookService = function(serviceName) {
+            document.getElementById('selectedService').value = serviceName;
+            document.getElementById('bookingForm').style.display = 'block';
+            document.getElementById('bookingForm').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // Handle appointment booking
+        document.getElementById('appointmentForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const service = document.getElementById('selectedService').value;
+            const name = document.getElementById('customerName').value;
+            const initials = document.getElementById('initials').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+            const date = document.getElementById('appointmentDate').value;
+            const method = document.getElementById('contactMethod').value;
+
+            const message = `📅 NEW APPOINTMENT BOOKING\n\nService: ${service}\nName: ${name}\nInitials & Surname: ${initials}\nPhone: ${phone}\nEmail: ${email}\nAddress: ${address}\nDate: ${date}\n\nPlease confirm this booking.`;
+
+            if (method === 'email') {
+                window.location.href = `mailto:glume3r@gmail.com?subject=New Appointment Booking&body=${encodeURIComponent(message)}`;
+            } else {
+                window.location.href = `https://wa.me/27827662555?text=${encodeURIComponent(message)}`;
+            }
+            
+            alert('Booking request sent! We will contact you shortly.');
+            document.getElementById('appointmentForm').reset();
+            document.getElementById('bookingForm').style.display = 'none';
+        });
+
+        window.addEventListener('load', displayServices);
+    </script>
+</body>
+</html>
