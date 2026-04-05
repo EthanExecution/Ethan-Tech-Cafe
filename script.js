@@ -56,8 +56,8 @@ function initializeSampleData() {
     // Sample products
     if (!localStorage.getItem('products')) {
         const sampleProducts = [
-            { id: 1, title: "Secondhand Proline 8GB, 256GB SSD, Win 11 Home", picture: "P Proline Laptop.jpg", price: 2300.00, quantity: 2 }
-            { id: 2, title: "HP Dual Core Laptop, Canon Printer, Headphones, Mouse & Bag ", picture: "P Hp Combo.jpg", price: 10000.00, quantity: 1 }
+            { id: 1, title: "Secondhand Proline 8GB, 256GB SSD, Win 11 Home", picture: "P Proline Laptop.jpg", price: 2300.00, quantity: 2 },
+            { id: 2, title: "HP Dual Core Laptop, Canon Printer, Headphones, Mouse & Bag ", picture: "P Hp Combo.jpg", price: 10000.00, quantity: 1 },
             { id: 3, title: "Wireless Pods", picture: "P pods.jfif", price: 400.00, quantity: 10 }
         ];
         localStorage.setItem('products', JSON.stringify(sampleProducts));
@@ -68,8 +68,10 @@ function initializeSampleData() {
         const sampleServices = [
             { id: 1, name: "PC Repair", description: "Hardware & software troubleshooting", price: "Negotiatable" },
             { id: 2, name: "Windows Activation", description: "Activation of Windows permanently", price: "Negotiatable" },
-            { id: 3, name: "Office 365 Activation", description: "Activation of Office 365 permanently", price: "Negotiatable" },
-            { id: 4, name: "Laptop Screen Repair", description: "New Laptop Screen Installation", price: "Negotiatable" },
+            { id: 3, name: "Windows Installation", description: "Windows 10 and 11 Installation", price: 150.00 },
+            { id: 4, name: "Office 365 Activation", description: "Activation of Office 365 permanently", price: "Negotiatable" },
+            { id: 5, name: "Laptop Screen Repair", description: "New Laptop Screen Installation", price: "Negotiatable" }
+            { id: 6, name: "Bluescreen Troubleshooting", description: "Troubleshooting PC/Laptop Bluescreen loop", price: "Negotiatable" },
         ];
         localStorage.setItem('services', JSON.stringify(sampleServices));
     }
